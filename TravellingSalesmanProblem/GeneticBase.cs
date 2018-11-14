@@ -11,8 +11,8 @@ namespace TravellingSalesmanProblem
         private IFintness _fintness;
         private int _genomLength;
         private int _countGens;
-        private long[][] _parentGenoms;
-        private long[][] _childrenGenoms;
+        private int[][] _parentGenoms;
+        private int[][] _childrenGenoms;
         private Random random = new Random();
 
         public int CountGeneration { get; set; }
@@ -23,6 +23,8 @@ namespace TravellingSalesmanProblem
         public GeneticBase(IFintness fintness)
         {
             _fintness = fintness;
+            _genomLength = fintness.Arity;
+            _countGens = (int) Math.Ceiling((double)_genomLength / 32);
         }
 
         private void DoSelection()
@@ -32,12 +34,33 @@ namespace TravellingSalesmanProblem
                 int ind1 = random.Next(CountChildrenInGeneration);
                 int ind2 = random.Next(CountChildrenInGeneration);
 
-                long fr1 = _fintness.fit(_parentGenoms[ind1]);
-                long fr2 = _fintness.fit(_parentGenoms[ind2]);
+                int fr1 = _fintness.fit(_parentGenoms[ind1]);
+                int fr2 = _fintness.fit(_parentGenoms[ind2]);
 
-                _childrenGenoms[i] = fr1 > fr2 ? (long[])_parentGenoms[ind1].Clone() :
-                    (long[])_parentGenoms[ind2].Clone();
+                _childrenGenoms[i] = fr1 > fr2 ? (int[])_parentGenoms[ind1].Clone() :
+                    (int[])_parentGenoms[ind2].Clone();
                 
+            }
+        }
+
+        private void Cross(int[] genom1, int[] genom2)
+        {
+            for (int i = 0; i < _countGens; ++i)
+            {
+                int mask = random.Next();
+                int swapMask = (genom1[i] ^ genom2[i]) & mask;
+                genom1[i] ^= swapMask;
+                genom2[i] ^= swapMask;
+            }
+        }
+
+        private void Crossing()
+        {
+            for (int i = 0; i < CountChildrenInGeneration / 2; ++i)
+            {
+                int ind1 = i * 2;
+                int ind2 = ind1 + 1;
+                Cross(_childrenGenoms[ind1], _childrenGenoms[ind2]);
             }
         }
     }
