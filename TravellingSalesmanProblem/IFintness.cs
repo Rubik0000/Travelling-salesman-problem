@@ -10,6 +10,6 @@ namespace TravellingSalesmanProblem
     {
         int Arity { get; }
 
-        int fit(int[] genom);
+        int Fit(int[] genom);
     }
 }
