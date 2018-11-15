@@ -46,7 +46,6 @@ namespace TravellingSalesmanProblem
 
         private void btnRandMatr_Click(object sender, EventArgs e)
         {
-            char ch = 'A';
             for (int i = 0; i < dtGrdVwCitiesMatrix.RowCount; ++i)
             {                
                 for (int j = 0; j < i; ++j)
@@ -119,7 +118,7 @@ namespace TravellingSalesmanProblem
                 var timeGen = new TimeCheck();
                 var genetic = new GeneticBase(travel, timeGen);
                 genetic.CountGenerations = Convert.ToInt32(nmrcCountGen.Value);
-                genetic.CountChildrenInGeneration = Convert.ToInt32(nmrcCountChildren.Value);
+                genetic.CountEntitiesInGeneration = Convert.ToInt32(nmrcCountChildren.Value);
                 genetic.UseMutation = chBxUseMutations.Checked;
                 if (nmrcFreqMut.Enabled)
                     genetic.MunationPercent = Convert.ToDouble(nmrcFreqMut.Value);

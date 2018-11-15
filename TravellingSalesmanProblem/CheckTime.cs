@@ -17,7 +17,6 @@ namespace TravellingSalesmanProblem
 
         public void Start() => sw.Start();
 
-
         public void Stop() => sw.Stop();
     }
 }

@@ -6,16 +6,27 @@ using System.Threading.Tasks;
 
 namespace TravellingSalesmanProblem
 {
+    /// <summary>
+    /// The travel salesman task
+    /// </summary>
     class Travel : IFintness, IExhaustive<int>
     {
+        static private readonly int BITS_PER_CITY = 32;
         static private Random _random = new Random();
 
+        /// <summary>The count of the cities</summary>
         public int CountCities { get; private set; } = 4;
 
+        /// <summary>The matrix of adjacency</summary>
         private int[,] _matrix;
 
-        private MyPair[] _pairs;
+        /// <summary>
+        /// The pair with key as the number of the city
+        /// and value as founded genom
+        /// </summary>
+        private Pair[] _pairs;
 
+        /// <summary>The current path</summary>
         private int[] _path;
         
         public Travel(int[,] matr, int count)
@@ -23,11 +34,11 @@ namespace TravellingSalesmanProblem
             _matrix = matr;
             CountCities = count;
 
-            _pairs = new MyPair[CountCities];
+            _pairs = new Pair[CountCities];
             _path = new int[CountCities];
             for (int i = 0; i < CountCities; ++i)
             {
-                _pairs[i] = new MyPair();
+                _pairs[i] = new Pair();
             }
         }
 
@@ -45,8 +56,16 @@ namespace TravellingSalesmanProblem
             return new Travel(matr, maxCount);
         }
 
-        public int Arity => CountCities * 32;
+        /// <summary>The size of the genom in bits</summary>
+        public int Arity => CountCities * BITS_PER_CITY;
 
+        /// <summary>
+        /// Get the path length by the number of the cities
+        /// </summary>
+        /// <param name="citiesNums"></param>
+        /// <returns>
+        /// The length or -1 if there are the same cities in path
+        /// </returns>
         public int GetPathLen(int[] citiesNums)
         {
             bool[] visited = new bool[CountCities];
@@ -66,6 +85,13 @@ namespace TravellingSalesmanProblem
             return len;
         }
 
+        /// <summary>
+        /// The fitness function
+        /// </summary>
+        /// <param name="genom"></param>
+        /// <returns>
+        /// If the formed path is shorter then the result is higher
+        /// </returns>
         public int Fit(int[] genom)
         {
             var path = FormPath(genom);
@@ -73,16 +99,26 @@ namespace TravellingSalesmanProblem
             return len == -1 ? 0 : int.MaxValue - len;
         }
 
+        /// <summary>
+        /// Forms a path by a given genome
+        /// </summary>
+        /// <param name="genom"></param>
+        /// <returns></returns>
         public int[] FormPath(int[] genom)
         {
+            // for every city set the appropriate gene in natural order
             for (int i = 0; i < CountCities; ++i)
             {
                 _pairs[i].Key = i;
                 _pairs[i].Value = genom[i];
             }
 
+            // sort pairs by the value of the genes
             Array.Sort(_pairs);
             
+            // make a path by the next rule:
+            // if the value of the gene of the city is less then
+            // the city is going earler in the order
             for (int i = 0; i < genom.Length; ++i)
             {
                 //path[i] = genom[i] % CountCities;                 
@@ -91,6 +127,10 @@ namespace TravellingSalesmanProblem
             return _path;
         }
 
+        /// <summary>
+        /// Gets the set of the numbers of the cities
+        /// </summary>
+        /// <returns></returns>
         public int[] GetSet()
         {
             var citieNums = new int[CountCities];
@@ -101,26 +141,17 @@ namespace TravellingSalesmanProblem
             return citieNums;
         }
 
+        /// <summary>
+        /// Gets koefficient for permutation algorithms
+        /// </summary>
+        /// <param name="perm"></param>
+        /// <returns>
+        /// If the formed path is shorter then the result is higher
+        /// </returns>
         public int OptimalKoef(int[] perm)
         {
             int len = GetPathLen(perm);
             return int.MaxValue - len;
         }
-    }
-
-    class MyPair : IComparable<MyPair>
-    {
-        public int Key { get; set; }
-        public int Value { get; set; }
-
-        public MyPair(int key, int value)
-        {
-            Key = key;
-            Value = value;
-        }
-
-        public MyPair() { }
-
-        public int CompareTo(MyPair other) => Value - other.Value;
-    }
+    }    
 }

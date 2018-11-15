@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace TravellingSalesmanProblem
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class ExhaustiveSearch<T>
     {
+        /// <summary>Permutation generator</summary>
         private MinArea.IPermutations<T> _perm;
         private IExhaustive<T> _exh;
         private ITimeCheck _time;
@@ -23,12 +28,7 @@ namespace TravellingSalesmanProblem
         }        
 
         public T[] GetOptimal()
-        {
-            //var citiesNums = new int[_travel.CountCities];
-            //for (int i = 0; i < _travel.CountCities; ++i)
-            //{
-            //    citiesNums[i] = i;
-            //}
+        {            
             T[] result = null;
             int maxK = 0;
 

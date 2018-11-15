@@ -60,6 +60,7 @@
     <Compile Include="Permutations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialPair.cs" />
     <Compile Include="Travel.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="MainForm.resx">

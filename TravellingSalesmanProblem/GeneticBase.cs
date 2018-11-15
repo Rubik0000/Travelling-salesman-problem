@@ -6,45 +6,85 @@ using System.Threading.Tasks;
 
 namespace TravellingSalesmanProblem
 {
+    /// <summary>
+    /// The genetic algorithm
+    /// </summary>
     class GeneticBase
     {
+        static private readonly int BIT_PER_GEN = 32;
+
+        /// <summary>The fitness function</summary>
         private IFintness _fintness;
+
+        /// <summary>The length of the genom in  bits</summary>
         private int _genomLength;
+
+        /// <summary>
+        /// The count gens per genom
+        /// A one gene has 'BIT_PER_GEN' bits
+        /// </summary>
         private int _countGens;
+
+        /// <summary>The parent</summary>
         private int[][] _parentGenoms;
+
+        /// <summary>The children</summary>
         private int[][] _childrenGenoms;
+
+        /// <summary>Random generator</summary>
         private Random random = new Random();
+
+        /// <summary>Time checker</summary>
         private ITimeCheck _timeCheck;
 
+        /// <summary>The count of generation due to working algorithm</summary>
         public int CountGenerations { get; set; }
-        public int CountChildrenInGeneration { get; set; }
+
+        /// <summary>The count of children in every generation</summary>
+        public int CountEntitiesInGeneration { get; set; }
+
+        /// <summary>Whether mutations will be used</summary>
         public bool UseMutation { get; set; }
+
+        /// <summary>The frequency of mutations</summary>
         public double MunationPercent { get; set; }
 
         public GeneticBase(IFintness fintness, ITimeCheck timeCheck = null)
         {
             _fintness = fintness;
             _genomLength = fintness.Arity;
-            _countGens = (int) Math.Ceiling((double)_genomLength / 32);
+            _countGens = (int) Math.Ceiling((double)_genomLength / BIT_PER_GEN);
             _timeCheck = timeCheck;
         }
-       
+
+        /// <summary>
+        /// The tournament selection
+        /// </summary>
         private void DoSelection()
         {
-            for (int i = 0; i < CountChildrenInGeneration; ++i)
+            // for every children
+            for (int i = 0; i < CountEntitiesInGeneration; ++i)
             {
-                int ind1 = random.Next(CountChildrenInGeneration);
-                int ind2 = random.Next(CountChildrenInGeneration);
+                // choose two random parents
+                int ind1 = random.Next(CountEntitiesInGeneration);
+                int ind2 = random.Next(CountEntitiesInGeneration);
 
+                // take the value of the fitnes finction
                 int fr1 = _fintness.Fit(_parentGenoms[ind1]);
                 int fr2 = _fintness.Fit(_parentGenoms[ind2]);
 
+                // set to the current children the selected parent
+                // with the best value of the fitness function
                 _childrenGenoms[i] = fr1 > fr2 ? (int[])_parentGenoms[ind1].Clone() :
-                    (int[])_parentGenoms[ind2].Clone();
-                
+                    (int[])_parentGenoms[ind2].Clone();                
             }
         }
 
+        /// <summary>
+        /// Crosses two genoms
+        /// </summary>
+        /// <param name="genom1"></param>
+        /// <param name="genom2"></param>
         private void CrossGenoms(int[] genom1, int[] genom2)
         {
             for (int i = 0; i < _countGens; ++i)
@@ -56,9 +96,12 @@ namespace TravellingSalesmanProblem
             }
         }
 
+        /// <summary>
+        /// Crosses children generation
+        /// </summary>
         private void CrossGeneration()
         {
-            for (int i = 0; i < CountChildrenInGeneration / 2; ++i)
+            for (int i = 0; i < CountEntitiesInGeneration / 2; ++i)
             {
                 int ind1 = i * 2;
                 int ind2 = ind1 + 1;
@@ -66,25 +109,36 @@ namespace TravellingSalesmanProblem
             }
         }
 
+        /// <summary>
+        /// Mutate genom randomly
+        /// </summary>
+        /// <param name="genom"></param>
         private void MutateGenom(int[] genom)
         {
+            // change one bit in genom
             int ind = random.Next(_countGens);
-            int offset = random.Next(32);
+            int offset = random.Next(BIT_PER_GEN);
             int mask = 1 << offset;
             genom[ind] ^= mask;
         }
 
+        /// <summary>
+        /// Mutates children generation
+        /// </summary>
         private void MutateGeneration()
         {
             foreach (var genom in _childrenGenoms)
             {
                 if (random.NextDouble() <= MunationPercent)
-                {
                     MutateGenom(genom);
-                }
+                
             }
         }
 
+        /// <summary>
+        /// Creates random genom
+        /// </summary>
+        /// <returns></returns>
         private int[] GenerateRandomGenom()
         {
             var res = new int[_countGens];
@@ -95,6 +149,9 @@ namespace TravellingSalesmanProblem
             return res;
         }
 
+        /// <summary>
+        /// Creates the first generation of parents
+        /// </summary>
         private void CreateFirstGeneration()
         {
             for (int i = 0; i < _parentGenoms.Length; ++i)
@@ -103,10 +160,14 @@ namespace TravellingSalesmanProblem
             }
         }
 
+        /// <summary>
+        /// Starts the algorithm
+        /// </summary>
+        /// <returns>The best genom</returns>
         public int[] Run()
         {
-            _parentGenoms = new int[CountChildrenInGeneration][];
-            _childrenGenoms = new int[CountChildrenInGeneration][];
+            _parentGenoms = new int[CountEntitiesInGeneration][];
+            _childrenGenoms = new int[CountEntitiesInGeneration][];
 
             _timeCheck?.Start();
 
@@ -123,6 +184,8 @@ namespace TravellingSalesmanProblem
                 _parentGenoms = _childrenGenoms;
                 _childrenGenoms = tmp;
             }
+
+            // choose the best genom
             int bestFitness = 0;
             int[] bestGenom = null;
             foreach (var genom in _parentGenoms)
