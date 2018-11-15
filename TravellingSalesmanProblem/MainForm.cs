@@ -21,7 +21,7 @@ namespace TravellingSalesmanProblem
         }
                        
 
-        private void numericUpDown1_KeyPress(object sender, KeyPressEventArgs e)
+        private void nmrcCountCities_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 13)
             {
@@ -30,7 +30,7 @@ namespace TravellingSalesmanProblem
             }
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void nmrcCountCities_ValueChanged(object sender, EventArgs e)
         {
             try
             {
@@ -44,6 +44,11 @@ namespace TravellingSalesmanProblem
             catch { }
         }
 
+        /// <summary>
+        /// Generates random matrix
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRandMatr_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < dtGrdVwCitiesMatrix.RowCount; ++i)
@@ -58,6 +63,11 @@ namespace TravellingSalesmanProblem
             }
         }
 
+        /// <summary>
+        /// Sets inputed matrix value [i,j] to [j, i] too
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dtGrdVwCitiesMatrix_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == e.ColumnIndex)
@@ -72,6 +82,11 @@ namespace TravellingSalesmanProblem
                 
         }
 
+        /// <summary>
+        /// Checks inputed value in the matrix
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dtGrdVwCitiesMatrix_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -87,6 +102,11 @@ namespace TravellingSalesmanProblem
             }
         }
 
+        /// <summary>
+        /// Gets matrix form the dataGridView
+        /// </summary>
+        /// <param name="n">The size of the matrix</param>
+        /// <returns></returns>
         private int[,] GetMatrix(out int n)
         {
             n = dtGrdVwCitiesMatrix.RowCount;
@@ -102,6 +122,12 @@ namespace TravellingSalesmanProblem
             return matr;
         }
 
+
+        /// <summary>
+        /// Find the shortest path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnFindPath_Click(object sender, EventArgs e)
         {
             txtBxPathLenGen.Clear();
@@ -109,6 +135,7 @@ namespace TravellingSalesmanProblem
             txtBxTimeExh.Clear();
             txtBxTimeGen.Clear();
 
+            // get matrix
             int n;
             int[,] matr = GetMatrix(out n);
             var travel = new Travel(matr, n);
@@ -116,20 +143,28 @@ namespace TravellingSalesmanProblem
             if (chBxUseGen.Checked) { 
 
                 var timeGen = new TimeCheck();
+
                 var genetic = new GeneticBase(travel, timeGen);
+                // set params
                 genetic.CountGenerations = Convert.ToInt32(nmrcCountGen.Value);
                 genetic.CountEntitiesInGeneration = Convert.ToInt32(nmrcCountChildren.Value);
                 genetic.UseMutation = chBxUseMutations.Checked;
                 if (nmrcFreqMut.Enabled)
                     genetic.MunationPercent = Convert.ToDouble(nmrcFreqMut.Value);
 
+                // found genom
                 int[] genom = genetic.Run();
 
                 if (genom != null)
                 {
+                    // translate genom into path
                     int[] path = travel.FormPath(genom);
                     int pathLen = travel.GetPathLen(path);
                     txtBxPathLenGen.Text = pathLen.ToString();
+                }
+                else
+                {
+                    txtBxPathLenGen.Text = "-";
                 }
                 txtBxTimeGen.Text = timeGen.GetTime().ToString();
             }
@@ -137,7 +172,9 @@ namespace TravellingSalesmanProblem
             if (chBxUseExh.Checked)
             {
                 var timeExh = new TimeCheck();
+
                 var ex = new ExhaustiveSearch<int>(new MinArea.Permutations<int>(), travel, timeExh);
+                // Get the shortest path
                 int[] exPath = ex.GetOptimal();
                 int exLen = travel.GetPathLen(exPath);
                 txtBxPathLenExh.Text = exLen.ToString();
@@ -146,11 +183,21 @@ namespace TravellingSalesmanProblem
             }
         }
 
+        /// <summary>
+        /// Locks mutation percent field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chBxUseMutations_CheckedChanged(object sender, EventArgs e)
         {
             nmrcFreqMut.Enabled = chBxUseMutations.Checked;
         }
 
+        /// <summary>
+        /// Locks genetic params and resutl fields
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chBxUseGen_CheckedChanged(object sender, EventArgs e)
         {
             nmrcCountGen.Enabled = nmrcCountChildren.Enabled =
@@ -160,11 +207,24 @@ namespace TravellingSalesmanProblem
             btnFindPath.Enabled = chBxUseExh.Checked || chBxUseGen.Checked;
         }
 
+        /// <summary>
+        /// Locks exhausted algorithm fields
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chBxUseExh_CheckedChanged(object sender, EventArgs e)
         {
             txtBxTimeExh.Enabled = txtBxPathLenExh.Enabled = chBxUseExh.Checked;
 
             btnFindPath.Enabled = chBxUseExh.Checked || chBxUseGen.Checked;
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Задача комивояжера\n" +
+                "Решение возможно найти генетический алгоритмом или перебором\n" +
+                "При решении перебором необходимо указать кол-во городов не более 10",
+                "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

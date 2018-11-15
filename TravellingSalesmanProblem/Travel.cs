@@ -12,7 +12,6 @@ namespace TravellingSalesmanProblem
     class Travel : IFintness, IExhaustive<int>
     {
         static private readonly int BITS_PER_CITY = 32;
-        static private Random _random = new Random();
 
         /// <summary>The count of the cities</summary>
         public int CountCities { get; private set; } = 4;
@@ -28,7 +27,12 @@ namespace TravellingSalesmanProblem
 
         /// <summary>The current path</summary>
         private int[] _path;
-        
+
+        /// <summary>
+        /// A constructor
+        /// </summary>
+        /// <param name="matr">a matrix of adjacency</param>
+        /// <param name="count">the size of the matrix</param>
         public Travel(int[,] matr, int count)
         {
             _matrix = matr;
@@ -40,20 +44,6 @@ namespace TravellingSalesmanProblem
             {
                 _pairs[i] = new Pair();
             }
-        }
-
-        static public Travel CreateRandomCities(int maxCount)
-        {
-            var matr = new int[maxCount, maxCount];
-            for (int i = 0; i < maxCount; ++i)
-            {
-                for (int j = 0; j < i; ++j)
-                {
-                    matr[i, j] = matr[j, i] = _random.Next(1, byte.MaxValue);
-                }
-                matr[i, i] = 0;
-            }
-            return new Travel(matr, maxCount);
         }
 
         /// <summary>The size of the genom in bits</summary>
@@ -148,7 +138,7 @@ namespace TravellingSalesmanProblem
         /// <returns>
         /// If the formed path is shorter then the result is higher
         /// </returns>
-        public int OptimalKoef(int[] perm)
+        public int OptimalСoef(int[] perm)
         {
             int len = GetPathLen(perm);
             return int.MaxValue - len;

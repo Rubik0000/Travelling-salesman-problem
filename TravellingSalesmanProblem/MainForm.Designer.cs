@@ -52,7 +52,7 @@
             this.lblUsedAlg = new System.Windows.Forms.Label();
             this.chBxUseGen = new System.Windows.Forms.CheckBox();
             this.chBxUseExh = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtGrdVwCitiesMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountCities)).BeginInit();
@@ -80,8 +80,8 @@
             this.nmrcCountCities.Name = "nmrcCountCities";
             this.nmrcCountCities.Size = new System.Drawing.Size(61, 20);
             this.nmrcCountCities.TabIndex = 1;
-            this.nmrcCountCities.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            this.nmrcCountCities.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericUpDown1_KeyPress);
+            this.nmrcCountCities.ValueChanged += new System.EventHandler(this.nmrcCountCities_ValueChanged);
+            this.nmrcCountCities.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nmrcCountCities_KeyPress);
             // 
             // btnRandMatr
             // 
@@ -300,14 +300,15 @@
             this.chBxUseExh.UseVisualStyleBackColor = true;
             this.chBxUseExh.CheckedChanged += new System.EventHandler(this.chBxUseExh_CheckedChanged);
             // 
-            // button1
+            // btnHelp
             // 
-            this.button1.Location = new System.Drawing.Point(762, 45);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "Помощь";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnHelp.Location = new System.Drawing.Point(762, 45);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnHelp.TabIndex = 24;
+            this.btnHelp.Text = "Помощь";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // label2
             // 
@@ -324,7 +325,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(921, 431);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.chBxUseExh);
             this.Controls.Add(this.chBxUseGen);
             this.Controls.Add(this.lblUsedAlg);
@@ -388,7 +389,7 @@
         private System.Windows.Forms.Label lblUsedAlg;
         private System.Windows.Forms.CheckBox chBxUseGen;
         private System.Windows.Forms.CheckBox chBxUseExh;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.Label label2;
     }
 }

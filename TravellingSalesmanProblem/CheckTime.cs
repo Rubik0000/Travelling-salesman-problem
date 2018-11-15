@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace TravellingSalesmanProblem
 {
+    /// <summary>
+    /// Checks the working time
+    /// </summary>
     class TimeCheck : ITimeCheck
     {
         private Stopwatch sw = new Stopwatch();

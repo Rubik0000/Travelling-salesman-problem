@@ -18,6 +18,7 @@ namespace TravellingSalesmanProblem
 
         /// <summary>
         /// The fitness function
+        /// Returns the higher value if the genom's value is closer to the ideal one
         /// </summary>
         /// <param name="genom"></param>
         /// <returns></returns>

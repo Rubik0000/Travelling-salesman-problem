@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TravellingSalesmanProblem
 {
+    /// <summary>
+    /// The pair with mutable key and value
+    /// </summary>
     internal class Pair : IComparable<Pair>
     {
         public int Key { get; set; }

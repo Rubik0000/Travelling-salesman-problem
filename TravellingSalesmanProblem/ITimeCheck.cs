@@ -16,8 +16,14 @@ namespace TravellingSalesmanProblem
         /// </summary>
         void Start();
 
+        /// <summary>
+        /// Restarts the count
+        /// </summary>
         void Restart();
 
+        /// <summary>
+        /// Stops the count
+        /// </summary>
         void Stop();
 
         /// <summary>Gets the time in miliseconds</summary>

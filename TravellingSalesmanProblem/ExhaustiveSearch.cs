@@ -14,7 +14,13 @@ namespace TravellingSalesmanProblem
     {
         /// <summary>Permutation generator</summary>
         private MinArea.IPermutations<T> _perm;
+
+        /// <summary>
+        /// 
+        /// </summary>
         private IExhaustive<T> _exh;
+
+        /// <summary>Time checker</summary>
         private ITimeCheck _time;
 
         public ExhaustiveSearch(
@@ -27,6 +33,10 @@ namespace TravellingSalesmanProblem
             _time = time;
         }        
 
+        /// <summary>
+        /// Gets optimal permutation
+        /// </summary>
+        /// <returns></returns>
         public T[] GetOptimal()
         {            
             T[] result = null;
@@ -36,7 +46,7 @@ namespace TravellingSalesmanProblem
 
             _perm.Generate(_exh.GetSet(), perm =>
             {
-                int k = _exh.OptimalKoef(perm);
+                int k = _exh.OptimalСoef(perm);
                 if (k > maxK)
                 {
                     maxK = k;
