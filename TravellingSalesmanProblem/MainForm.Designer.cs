@@ -44,10 +44,21 @@
             this.txtBxPathLenGen = new System.Windows.Forms.TextBox();
             this.txtBxPathLenExh = new System.Windows.Forms.TextBox();
             this.btnFindPath = new System.Windows.Forms.Button();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.txtBxTimeGen = new System.Windows.Forms.TextBox();
+            this.txtBxTimeExh = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nmrcFreqMut = new System.Windows.Forms.NumericUpDown();
+            this.lblUsedAlg = new System.Windows.Forms.Label();
+            this.chBxUseGen = new System.Windows.Forms.CheckBox();
+            this.chBxUseExh = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtGrdVwCitiesMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountCities)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountGen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountChildren)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrcFreqMut)).BeginInit();
             this.SuspendLayout();
             // 
             // dtGrdVwCitiesMatrix
@@ -56,7 +67,7 @@
             this.dtGrdVwCitiesMatrix.AllowUserToDeleteRows = false;
             this.dtGrdVwCitiesMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dtGrdVwCitiesMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtGrdVwCitiesMatrix.Location = new System.Drawing.Point(12, 42);
+            this.dtGrdVwCitiesMatrix.Location = new System.Drawing.Point(12, 12);
             this.dtGrdVwCitiesMatrix.Name = "dtGrdVwCitiesMatrix";
             this.dtGrdVwCitiesMatrix.Size = new System.Drawing.Size(396, 327);
             this.dtGrdVwCitiesMatrix.TabIndex = 0;
@@ -65,18 +76,18 @@
             // 
             // nmrcCountCities
             // 
-            this.nmrcCountCities.Location = new System.Drawing.Point(12, 12);
+            this.nmrcCountCities.Location = new System.Drawing.Point(106, 350);
             this.nmrcCountCities.Name = "nmrcCountCities";
-            this.nmrcCountCities.Size = new System.Drawing.Size(120, 20);
+            this.nmrcCountCities.Size = new System.Drawing.Size(61, 20);
             this.nmrcCountCities.TabIndex = 1;
             this.nmrcCountCities.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             this.nmrcCountCities.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numericUpDown1_KeyPress);
             // 
             // btnRandMatr
             // 
-            this.btnRandMatr.Location = new System.Drawing.Point(33, 375);
+            this.btnRandMatr.Location = new System.Drawing.Point(190, 347);
             this.btnRandMatr.Name = "btnRandMatr";
-            this.btnRandMatr.Size = new System.Drawing.Size(152, 23);
+            this.btnRandMatr.Size = new System.Drawing.Size(218, 23);
             this.btnRandMatr.TabIndex = 2;
             this.btnRandMatr.Text = "Случайное заполнение";
             this.btnRandMatr.UseVisualStyleBackColor = true;
@@ -85,16 +96,16 @@
             // lblGenAlg
             // 
             this.lblGenAlg.AutoSize = true;
-            this.lblGenAlg.Location = new System.Drawing.Point(473, 197);
+            this.lblGenAlg.Location = new System.Drawing.Point(535, 234);
             this.lblGenAlg.Name = "lblGenAlg";
-            this.lblGenAlg.Size = new System.Drawing.Size(201, 13);
+            this.lblGenAlg.Size = new System.Drawing.Size(128, 13);
             this.lblGenAlg.TabIndex = 3;
-            this.lblGenAlg.Text = "Результаты генетического алгоритма";
+            this.lblGenAlg.Text = "Генетический алгоритм";
             // 
             // lblExhaustive
             // 
             this.lblExhaustive.AutoSize = true;
-            this.lblExhaustive.Location = new System.Drawing.Point(742, 197);
+            this.lblExhaustive.Location = new System.Drawing.Point(693, 234);
             this.lblExhaustive.Name = "lblExhaustive";
             this.lblExhaustive.Size = new System.Drawing.Size(51, 13);
             this.lblExhaustive.TabIndex = 4;
@@ -103,7 +114,7 @@
             // lblGenParams
             // 
             this.lblGenParams.AutoSize = true;
-            this.lblGenParams.Location = new System.Drawing.Point(436, 42);
+            this.lblGenParams.Location = new System.Drawing.Point(443, 92);
             this.lblGenParams.Name = "lblGenParams";
             this.lblGenParams.Size = new System.Drawing.Size(200, 13);
             this.lblGenParams.TabIndex = 5;
@@ -112,7 +123,7 @@
             // lblCountGen
             // 
             this.lblCountGen.AutoSize = true;
-            this.lblCountGen.Location = new System.Drawing.Point(436, 68);
+            this.lblCountGen.Location = new System.Drawing.Point(443, 118);
             this.lblCountGen.Name = "lblCountGen";
             this.lblCountGen.Size = new System.Drawing.Size(110, 13);
             this.lblCountGen.TabIndex = 6;
@@ -120,7 +131,12 @@
             // 
             // nmrcCountGen
             // 
-            this.nmrcCountGen.Location = new System.Drawing.Point(606, 66);
+            this.nmrcCountGen.Location = new System.Drawing.Point(613, 116);
+            this.nmrcCountGen.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.nmrcCountGen.Name = "nmrcCountGen";
             this.nmrcCountGen.Size = new System.Drawing.Size(84, 20);
             this.nmrcCountGen.TabIndex = 7;
@@ -128,7 +144,7 @@
             // lblCountChildrenInGen
             // 
             this.lblCountChildrenInGen.AutoSize = true;
-            this.lblCountChildrenInGen.Location = new System.Drawing.Point(436, 94);
+            this.lblCountChildrenInGen.Location = new System.Drawing.Point(443, 144);
             this.lblCountChildrenInGen.Name = "lblCountChildrenInGen";
             this.lblCountChildrenInGen.Size = new System.Drawing.Size(164, 13);
             this.lblCountChildrenInGen.TabIndex = 8;
@@ -136,7 +152,12 @@
             // 
             // nmrcCountChildren
             // 
-            this.nmrcCountChildren.Location = new System.Drawing.Point(606, 92);
+            this.nmrcCountChildren.Location = new System.Drawing.Point(613, 142);
+            this.nmrcCountChildren.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.nmrcCountChildren.Name = "nmrcCountChildren";
             this.nmrcCountChildren.Size = new System.Drawing.Size(84, 20);
             this.nmrcCountChildren.TabIndex = 9;
@@ -144,7 +165,7 @@
             // lblUseMutations
             // 
             this.lblUseMutations.AutoSize = true;
-            this.lblUseMutations.Location = new System.Drawing.Point(436, 118);
+            this.lblUseMutations.Location = new System.Drawing.Point(443, 168);
             this.lblUseMutations.Name = "lblUseMutations";
             this.lblUseMutations.Size = new System.Drawing.Size(131, 13);
             this.lblUseMutations.TabIndex = 10;
@@ -153,16 +174,17 @@
             // chBxUseMutations
             // 
             this.chBxUseMutations.AutoSize = true;
-            this.chBxUseMutations.Location = new System.Drawing.Point(606, 118);
+            this.chBxUseMutations.Location = new System.Drawing.Point(613, 168);
             this.chBxUseMutations.Name = "chBxUseMutations";
             this.chBxUseMutations.Size = new System.Drawing.Size(15, 14);
             this.chBxUseMutations.TabIndex = 11;
             this.chBxUseMutations.UseVisualStyleBackColor = true;
+            this.chBxUseMutations.CheckedChanged += new System.EventHandler(this.chBxUseMutations_CheckedChanged);
             // 
             // lblShortestPathLen
             // 
             this.lblShortestPathLen.AutoSize = true;
-            this.lblShortestPathLen.Location = new System.Drawing.Point(414, 228);
+            this.lblShortestPathLen.Location = new System.Drawing.Point(445, 261);
             this.lblShortestPathLen.Name = "lblShortestPathLen";
             this.lblShortestPathLen.Size = new System.Drawing.Size(71, 13);
             this.lblShortestPathLen.TabIndex = 12;
@@ -170,21 +192,21 @@
             // 
             // txtBxPathLenGen
             // 
-            this.txtBxPathLenGen.Location = new System.Drawing.Point(514, 225);
+            this.txtBxPathLenGen.Location = new System.Drawing.Point(554, 258);
             this.txtBxPathLenGen.Name = "txtBxPathLenGen";
-            this.txtBxPathLenGen.Size = new System.Drawing.Size(74, 20);
+            this.txtBxPathLenGen.Size = new System.Drawing.Size(89, 20);
             this.txtBxPathLenGen.TabIndex = 13;
             // 
             // txtBxPathLenExh
             // 
-            this.txtBxPathLenExh.Location = new System.Drawing.Point(606, 225);
+            this.txtBxPathLenExh.Location = new System.Drawing.Point(679, 258);
             this.txtBxPathLenExh.Name = "txtBxPathLenExh";
-            this.txtBxPathLenExh.Size = new System.Drawing.Size(74, 20);
+            this.txtBxPathLenExh.Size = new System.Drawing.Size(89, 20);
             this.txtBxPathLenExh.TabIndex = 14;
             // 
             // btnFindPath
             // 
-            this.btnFindPath.Location = new System.Drawing.Point(446, 399);
+            this.btnFindPath.Location = new System.Drawing.Point(762, 7);
             this.btnFindPath.Name = "btnFindPath";
             this.btnFindPath.Size = new System.Drawing.Size(75, 23);
             this.btnFindPath.TabIndex = 15;
@@ -192,11 +214,125 @@
             this.btnFindPath.UseVisualStyleBackColor = true;
             this.btnFindPath.Click += new System.EventHandler(this.btnFindPath_Click);
             // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(445, 287);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(69, 13);
+            this.lblTime.TabIndex = 16;
+            this.lblTime.Text = "Время (мс): ";
+            // 
+            // txtBxTimeGen
+            // 
+            this.txtBxTimeGen.Location = new System.Drawing.Point(554, 284);
+            this.txtBxTimeGen.Name = "txtBxTimeGen";
+            this.txtBxTimeGen.Size = new System.Drawing.Size(89, 20);
+            this.txtBxTimeGen.TabIndex = 17;
+            // 
+            // txtBxTimeExh
+            // 
+            this.txtBxTimeExh.Location = new System.Drawing.Point(679, 284);
+            this.txtBxTimeExh.Name = "txtBxTimeExh";
+            this.txtBxTimeExh.Size = new System.Drawing.Size(89, 20);
+            this.txtBxTimeExh.TabIndex = 18;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(443, 190);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(97, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Частота мутаций:";
+            // 
+            // nmrcFreqMut
+            // 
+            this.nmrcFreqMut.DecimalPlaces = 2;
+            this.nmrcFreqMut.Enabled = false;
+            this.nmrcFreqMut.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nmrcFreqMut.Location = new System.Drawing.Point(613, 188);
+            this.nmrcFreqMut.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nmrcFreqMut.Name = "nmrcFreqMut";
+            this.nmrcFreqMut.Size = new System.Drawing.Size(84, 20);
+            this.nmrcFreqMut.TabIndex = 20;
+            // 
+            // lblUsedAlg
+            // 
+            this.lblUsedAlg.AutoSize = true;
+            this.lblUsedAlg.Location = new System.Drawing.Point(443, 12);
+            this.lblUsedAlg.Name = "lblUsedAlg";
+            this.lblUsedAlg.Size = new System.Drawing.Size(146, 13);
+            this.lblUsedAlg.TabIndex = 21;
+            this.lblUsedAlg.Text = "Используемые алгоритмы:";
+            // 
+            // chBxUseGen
+            // 
+            this.chBxUseGen.AutoSize = true;
+            this.chBxUseGen.Checked = true;
+            this.chBxUseGen.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chBxUseGen.Location = new System.Drawing.Point(446, 28);
+            this.chBxUseGen.Name = "chBxUseGen";
+            this.chBxUseGen.Size = new System.Drawing.Size(147, 17);
+            this.chBxUseGen.TabIndex = 22;
+            this.chBxUseGen.Text = "Генетический алгоритм";
+            this.chBxUseGen.UseVisualStyleBackColor = true;
+            this.chBxUseGen.CheckedChanged += new System.EventHandler(this.chBxUseGen_CheckedChanged);
+            // 
+            // chBxUseExh
+            // 
+            this.chBxUseExh.AutoSize = true;
+            this.chBxUseExh.Checked = true;
+            this.chBxUseExh.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chBxUseExh.Location = new System.Drawing.Point(446, 51);
+            this.chBxUseExh.Name = "chBxUseExh";
+            this.chBxUseExh.Size = new System.Drawing.Size(70, 17);
+            this.chBxUseExh.TabIndex = 23;
+            this.chBxUseExh.Text = "Перебор";
+            this.chBxUseExh.UseVisualStyleBackColor = true;
+            this.chBxUseExh.CheckedChanged += new System.EventHandler(this.chBxUseExh_CheckedChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(762, 45);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "Помощь";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 352);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "Кол-во городов:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(921, 431);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.chBxUseExh);
+            this.Controls.Add(this.chBxUseGen);
+            this.Controls.Add(this.lblUsedAlg);
+            this.Controls.Add(this.nmrcFreqMut);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtBxTimeExh);
+            this.Controls.Add(this.txtBxTimeGen);
+            this.Controls.Add(this.lblTime);
             this.Controls.Add(this.btnFindPath);
             this.Controls.Add(this.txtBxPathLenExh);
             this.Controls.Add(this.txtBxPathLenGen);
@@ -213,12 +349,14 @@
             this.Controls.Add(this.btnRandMatr);
             this.Controls.Add(this.nmrcCountCities);
             this.Controls.Add(this.dtGrdVwCitiesMatrix);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Задача комивояжера";
             ((System.ComponentModel.ISupportInitialize)(this.dtGrdVwCitiesMatrix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountCities)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountGen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmrcCountChildren)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nmrcFreqMut)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,6 +380,16 @@
         private System.Windows.Forms.TextBox txtBxPathLenGen;
         private System.Windows.Forms.TextBox txtBxPathLenExh;
         private System.Windows.Forms.Button btnFindPath;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.TextBox txtBxTimeGen;
+        private System.Windows.Forms.TextBox txtBxTimeExh;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nmrcFreqMut;
+        private System.Windows.Forms.Label lblUsedAlg;
+        private System.Windows.Forms.CheckBox chBxUseGen;
+        private System.Windows.Forms.CheckBox chBxUseExh;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

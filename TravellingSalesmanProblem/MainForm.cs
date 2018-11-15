@@ -17,32 +17,9 @@ namespace TravellingSalesmanProblem
         public MainForm()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Click(object sender, EventArgs e)
-        {
-            var travel = Travel.CreateRandomCities(7);
-            var genetic = new GeneticBase(travel);
-            genetic.CountGenerations = 50;
-            genetic.CountChildrenInGeneration = 50;
-            genetic.UseMutation = true;
-            int[] genom = genetic.Run();
-            if (genom != null)
-            {
-                int[] path = travel.FormPath(genom);
-                int pathLen = travel.GetPathLen(path);
-            }
-            var ex = new ExhaustiveSearch(new MinArea.Permutations<int>(), travel);
-            int[] exPath = ex.GetShortestPath();
-            int exLen = travel.GetPathLen(exPath);
-        }
-
-        
-
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
-        {
             
         }
+                       
 
         private void numericUpDown1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -69,8 +46,9 @@ namespace TravellingSalesmanProblem
 
         private void btnRandMatr_Click(object sender, EventArgs e)
         {
+            char ch = 'A';
             for (int i = 0; i < dtGrdVwCitiesMatrix.RowCount; ++i)
-            {
+            {                
                 for (int j = 0; j < i; ++j)
                 {
                     dtGrdVwCitiesMatrix[i, j].Value =
@@ -110,9 +88,9 @@ namespace TravellingSalesmanProblem
             }
         }
 
-        private void btnFindPath_Click(object sender, EventArgs e)
+        private int[,] GetMatrix(out int n)
         {
-            int n = dtGrdVwCitiesMatrix.RowCount;
+            n = dtGrdVwCitiesMatrix.RowCount;
             var matr = new int[n, n];
             for (int i = 0; i < n; ++i)
             {
@@ -122,27 +100,72 @@ namespace TravellingSalesmanProblem
                 }
                 matr[i, i] = 0;
             }
+            return matr;
+        }
 
-            var travel = new Travel(matr, n);
-
-            var genetic = new GeneticBase(travel);
-            genetic.CountGenerations = Convert.ToInt32(nmrcCountGen.Value);
-            genetic.CountChildrenInGeneration = Convert.ToInt32(nmrcCountChildren.Value);
-            genetic.UseMutation = chBxUseMutations.Checked;
-            int[] genom = genetic.Run();
-
+        private void btnFindPath_Click(object sender, EventArgs e)
+        {
             txtBxPathLenGen.Clear();
             txtBxPathLenExh.Clear();
-            if (genom != null)
-            {
-                int[] path = travel.FormPath(genom);
-                int pathLen = travel.GetPathLen(path);
-                txtBxPathLenGen.Text = pathLen.ToString();
+            txtBxTimeExh.Clear();
+            txtBxTimeGen.Clear();
+
+            int n;
+            int[,] matr = GetMatrix(out n);
+            var travel = new Travel(matr, n);
+
+            if (chBxUseGen.Checked) { 
+
+                var timeGen = new TimeCheck();
+                var genetic = new GeneticBase(travel, timeGen);
+                genetic.CountGenerations = Convert.ToInt32(nmrcCountGen.Value);
+                genetic.CountChildrenInGeneration = Convert.ToInt32(nmrcCountChildren.Value);
+                genetic.UseMutation = chBxUseMutations.Checked;
+                if (nmrcFreqMut.Enabled)
+                    genetic.MunationPercent = Convert.ToDouble(nmrcFreqMut.Value);
+
+                int[] genom = genetic.Run();
+
+                if (genom != null)
+                {
+                    int[] path = travel.FormPath(genom);
+                    int pathLen = travel.GetPathLen(path);
+                    txtBxPathLenGen.Text = pathLen.ToString();
+                }
+                txtBxTimeGen.Text = timeGen.GetTime().ToString();
             }
-            var ex = new ExhaustiveSearch(new MinArea.Permutations<int>(), travel);
-            int[] exPath = ex.GetShortestPath();
-            int exLen = travel.GetPathLen(exPath);
-            txtBxPathLenExh.Text = exLen.ToString();
+
+            if (chBxUseExh.Checked)
+            {
+                var timeExh = new TimeCheck();
+                var ex = new ExhaustiveSearch<int>(new MinArea.Permutations<int>(), travel, timeExh);
+                int[] exPath = ex.GetOptimal();
+                int exLen = travel.GetPathLen(exPath);
+                txtBxPathLenExh.Text = exLen.ToString();
+
+                txtBxTimeExh.Text = timeExh.GetTime().ToString();
+            }
+        }
+
+        private void chBxUseMutations_CheckedChanged(object sender, EventArgs e)
+        {
+            nmrcFreqMut.Enabled = chBxUseMutations.Checked;
+        }
+
+        private void chBxUseGen_CheckedChanged(object sender, EventArgs e)
+        {
+            nmrcCountGen.Enabled = nmrcCountChildren.Enabled =
+                chBxUseMutations.Enabled = nmrcFreqMut.Enabled = 
+                txtBxPathLenGen.Enabled = txtBxTimeGen.Enabled = chBxUseGen.Checked;
+
+            btnFindPath.Enabled = chBxUseExh.Checked || chBxUseGen.Checked;
+        }
+
+        private void chBxUseExh_CheckedChanged(object sender, EventArgs e)
+        {
+            txtBxTimeExh.Enabled = txtBxPathLenExh.Enabled = chBxUseExh.Checked;
+
+            btnFindPath.Enabled = chBxUseExh.Checked || chBxUseGen.Checked;
         }
     }
 }

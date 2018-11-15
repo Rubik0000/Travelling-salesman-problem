@@ -14,17 +14,19 @@ namespace TravellingSalesmanProblem
         private int[][] _parentGenoms;
         private int[][] _childrenGenoms;
         private Random random = new Random();
+        private ITimeCheck _timeCheck;
 
         public int CountGenerations { get; set; }
         public int CountChildrenInGeneration { get; set; }
         public bool UseMutation { get; set; }
         public double MunationPercent { get; set; }
 
-        public GeneticBase(IFintness fintness)
+        public GeneticBase(IFintness fintness, ITimeCheck timeCheck = null)
         {
             _fintness = fintness;
             _genomLength = fintness.Arity;
             _countGens = (int) Math.Ceiling((double)_genomLength / 32);
+            _timeCheck = timeCheck;
         }
        
         private void DoSelection()
@@ -66,7 +68,7 @@ namespace TravellingSalesmanProblem
 
         private void MutateGenom(int[] genom)
         {
-            int ind = random.Next(_genomLength);
+            int ind = random.Next(_countGens);
             int offset = random.Next(32);
             int mask = 1 << offset;
             genom[ind] ^= mask;
@@ -106,6 +108,8 @@ namespace TravellingSalesmanProblem
             _parentGenoms = new int[CountChildrenInGeneration][];
             _childrenGenoms = new int[CountChildrenInGeneration][];
 
+            _timeCheck?.Start();
+
             CreateFirstGeneration();
 
             for (int currGen = 0; currGen < CountGenerations; ++currGen)
@@ -130,6 +134,9 @@ namespace TravellingSalesmanProblem
                     bestGenom = genom;
                 }
             }
+
+            _timeCheck?.Stop();
+
             return bestGenom;
         }
     }

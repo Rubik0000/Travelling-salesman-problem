@@ -6,36 +6,47 @@ using System.Threading.Tasks;
 
 namespace TravellingSalesmanProblem
 {
-    class ExhaustiveSearch
+    class ExhaustiveSearch<T>
     {
-        private MinArea.IPermutations<int> _perm;
-        private Travel _travel;
+        private MinArea.IPermutations<T> _perm;
+        private IExhaustive<T> _exh;
+        private ITimeCheck _time;
 
-        public ExhaustiveSearch(MinArea.IPermutations<int> perm, Travel tr)
+        public ExhaustiveSearch(
+            MinArea.IPermutations<T> perm, 
+            IExhaustive<T> exh,
+            ITimeCheck time = null)
         {
             _perm = perm;
-            _travel = tr;
+            _exh = exh;
+            _time = time;
         }        
 
-        public int[] GetShortestPath()
+        public T[] GetOptimal()
         {
-            var citiesNums = new int[_travel.CountCities];
-            for (int i = 0; i < _travel.CountCities; ++i)
+            //var citiesNums = new int[_travel.CountCities];
+            //for (int i = 0; i < _travel.CountCities; ++i)
+            //{
+            //    citiesNums[i] = i;
+            //}
+            T[] result = null;
+            int maxK = 0;
+
+            _time?.Start();
+
+            _perm.Generate(_exh.GetSet(), perm =>
             {
-                citiesNums[i] = i;
-            }
-            int[] shortesPath = null;
-            int minLen = int.MaxValue;
-            _perm.Generate(citiesNums, path =>
-            {
-                int len = _travel.GetPathLen(path);
-                if (len < minLen)
+                int k = _exh.OptimalKoef(perm);
+                if (k > maxK)
                 {
-                    minLen = len;
-                    shortesPath = (int[])path.Clone();
+                    maxK = k;
+                    result = (T[])perm.Clone();
                 }
             });
-            return shortesPath;
+
+            _time?.Stop();
+
+            return result;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TravellingSalesmanProblem
 {
-    class Travel : IFintness
+    class Travel : IFintness, IExhaustive<int>
     {
         static private Random _random = new Random();
 
@@ -14,18 +14,21 @@ namespace TravellingSalesmanProblem
 
         private int[,] _matrix;
 
+        private MyPair[] _pairs;
 
+        private int[] _path;
+        
         public Travel(int[,] matr, int count)
         {
             _matrix = matr;
             CountCities = count;
-            //_matrix = new int[,]
-            //{
-            //    {0, 5, 7, 9},
-            //    {5, 0, 6, 2},
-            //    {7, 6, 0, 4},
-            //    {9, 2, 4, 0}
-            //};
+
+            _pairs = new MyPair[CountCities];
+            _path = new int[CountCities];
+            for (int i = 0; i < CountCities; ++i)
+            {
+                _pairs[i] = new MyPair();
+            }
         }
 
         static public Travel CreateRandomCities(int maxCount)
@@ -71,14 +74,53 @@ namespace TravellingSalesmanProblem
         }
 
         public int[] FormPath(int[] genom)
-        {            
-            int[] path = new int[CountCities];
-            for (int i = 0; i < genom.Length; ++i)
-            {                
-                path[i] = genom[i] % CountCities;                 
+        {
+            for (int i = 0; i < CountCities; ++i)
+            {
+                _pairs[i].Key = i;
+                _pairs[i].Value = genom[i];
             }
+
+            Array.Sort(_pairs);
             
-            return path;
+            for (int i = 0; i < genom.Length; ++i)
+            {
+                //path[i] = genom[i] % CountCities;                 
+                _path[i] = _pairs[i].Key;
+            }            
+            return _path;
         }
+
+        public int[] GetSet()
+        {
+            var citieNums = new int[CountCities];
+            for (int i = 0; i < CountCities; ++i)
+            {
+                citieNums[i] = i;
+            }
+            return citieNums;
+        }
+
+        public int OptimalKoef(int[] perm)
+        {
+            int len = GetPathLen(perm);
+            return int.MaxValue - len;
+        }
+    }
+
+    class MyPair : IComparable<MyPair>
+    {
+        public int Key { get; set; }
+        public int Value { get; set; }
+
+        public MyPair(int key, int value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        public MyPair() { }
+
+        public int CompareTo(MyPair other) => Value - other.Value;
     }
 }
